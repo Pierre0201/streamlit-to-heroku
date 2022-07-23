@@ -4,17 +4,17 @@ Created on Sat Jun 25 16:46:49 2022
 
 @author: Pierre
 """
+#import streamlit.components.v1 as components
+#import time
+#from matplotlib.patches import Rectangle
 
 import streamlit as st
-import streamlit.components.v1 as components
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
-#import time
 import shap
 from joblib import load
 import seaborn as sns
-#from matplotlib.patches import Rectangle
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
