@@ -18,10 +18,10 @@ import seaborn as sns
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
-path = 'C:/Users/Pierre/#P7 DS OC/'
-clf = load(path+'clf.joblib')
-train_df = pd.read_csv(path+'train_df_dash.csv')
-test_df = pd.read_csv(path+'submission_kernel02.csv')
+#path = 'C:/Users/Pierre/#P7 DS OC/'
+clf = load('clf.joblib')
+train_df = pd.read_csv('train_df_dash.csv')
+test_df = pd.read_csv('submission_kernel02.csv')
 
 feats = [f for f in train_df.columns if f not in ['TARGET','SK_ID_CURR','SK_ID_BUREAU','SK_ID_PREV','index']]
 
