@@ -18,7 +18,7 @@ import seaborn as sns
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 #path = 'C:/Users/Pierre/#P7 DS OC/'
-path = 'https://github.com/Pierre0201/streamlit-to-heroku/'
+path = 'https://raw.githubusercontent.com/Pierre0201/streamlit-to-heroku/main/'
 #clf = load(path+'clf.joblib')
 train_df = pd.read_csv(path+'train_df_dash.csv')
 test_df = pd.read_csv(path+'submission_kernel02.csv')
