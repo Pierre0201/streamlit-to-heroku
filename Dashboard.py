@@ -60,6 +60,7 @@ plt.rcParams.update(
 #col4.metric("Median", "{:.2%}".format(np.median(test_df['TARGET'])))
 
 #liste = (f for f in train_df.columns if f not in ['TARGET','SK_ID_CURR','SK_ID_BUREAU','SK_ID_PREV','index'])
+liste = ['PAYMENT_RATE','DAYS_BIRTH','test1','test2']
 
 #option = st.sidebar.selectbox('Select a first variable', (liste))
 #st.sidebar.write('You selected:', option)
