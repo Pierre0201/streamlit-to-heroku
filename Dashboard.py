@@ -18,14 +18,14 @@ import seaborn as sns
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 #path = 'C:/Users/Pierre/#P7 DS OC/'
-path = 'https://github.com/Pierre0201/streamlit-to-heroku'
+path = 'https://github.com/Pierre0201/streamlit-to-heroku/'
 #clf = load(path+'clf.joblib')
-#train_df = pd.read_csv(path+'train_df_dash.csv')
-#test_df = pd.read_csv(path+'submission_kernel02.csv')
+train_df = pd.read_csv(path+'train_df_dash.csv')
+test_df = pd.read_csv(path+'submission_kernel02.csv')
 
-#feats = [f for f in train_df.columns if f not in ['TARGET','SK_ID_CURR','SK_ID_BUREAU','SK_ID_PREV','index']]
+feats = [f for f in train_df.columns if f not in ['TARGET','SK_ID_CURR','SK_ID_BUREAU','SK_ID_PREV','index']]
 
-#explainer = shap.TreeExplainer(clf, train_df[feats])
+explainer = shap.TreeExplainer(clf, train_df[feats])
 credit = 0
 
 
@@ -35,7 +35,7 @@ st.set_page_config(layout="wide")
 
 # Add a slider to the sidebar:
 credit = st.sidebar.number_input("Enter credit application", value=int() ) 
-#shap_values = explainer.shap_values(test_df[feats].iloc[credit])
+shap_values = explainer.shap_values(test_df[feats].iloc[credit])
 
 
 plt.style.use('fivethirtyeight')
@@ -50,17 +50,17 @@ plt.rcParams.update(
      'axes.titleweight':'bold'
     })
 
-#delta = test_df['TARGET'].iloc[credit]-np.median(test_df['TARGET'])
+delta = test_df['TARGET'].iloc[credit]-np.median(test_df['TARGET'])
 
-#col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3, col4 = st.columns(4)
 
-#col1.metric("Default Risk", "{:.2%}".format(test_df['TARGET'].iloc[credit]), "{:.2%}".format(delta), delta_color="inverse")
-#col2.metric("Minimum", "{:.2%}".format(min(test_df['TARGET'])))
-#col3.metric("Maximum", "{:.2%}".format(max(test_df['TARGET'])))
-#col4.metric("Median", "{:.2%}".format(np.median(test_df['TARGET'])))
+col1.metric("Default Risk", "{:.2%}".format(test_df['TARGET'].iloc[credit]), "{:.2%}".format(delta), delta_color="inverse")
+col2.metric("Minimum", "{:.2%}".format(min(test_df['TARGET'])))
+col3.metric("Maximum", "{:.2%}".format(max(test_df['TARGET'])))
+col4.metric("Median", "{:.2%}".format(np.median(test_df['TARGET'])))
 
-#liste = (f for f in train_df.columns if f not in ['TARGET','SK_ID_CURR','SK_ID_BUREAU','SK_ID_PREV','index'])
-liste = ['PAYMENT_RATE','DAYS_BIRTH','test1','test2']
+liste = (f for f in train_df.columns if f not in ['TARGET','SK_ID_CURR','SK_ID_BUREAU','SK_ID_PREV','index'])
+#liste = ['PAYMENT_RATE','DAYS_BIRTH','test1','test2']
 
 #option = st.sidebar.selectbox('Select a first variable', (liste))
 #st.sidebar.write('You selected:', option)
