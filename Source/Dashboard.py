@@ -20,7 +20,8 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 
 #path = 'C:/Users/Pierre/#P7 DS OC/'
 path = 'https://github.com/Pierre0201/streamlit-to-heroku/blob/main/Source/'
-clf = load(path+'clf.joblib')
+#clf = load(path+'clf.joblib')
+clf = load('https://github.com/Pierre0201/streamlit-to-heroku/blob/main/Source/clf.joblib')
 train_df = pd.read_csv(path+'train_df_dash.csv')
 test_df = pd.read_csv(path+'submission_kernel02.csv')
 
