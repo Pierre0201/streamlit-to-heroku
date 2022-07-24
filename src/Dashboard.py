@@ -30,9 +30,15 @@ path = 'https://raw.githubusercontent.com/Pierre0201/streamlit-to-heroku/main/sr
 #clf = pickle.load(open('https://github.com/Pierre0201/streamlit-to-heroku/blob/main/src/ressources/finalized_model.sav', 'rb'))
 #clf = load('https://github.com/Pierre0201/streamlit-to-heroku/blob/e06d0cad2cc42ca920186d14fee68973e6270642/clf.joblib')
 
+from io import BytesIO
+import requests
+mLink = 'https://github.com/Pierre0201/streamlit-to-heroku/blob/main/clf.joblib?raw=true'
+mfile = BytesIO(requests.get(mLink).content)
+clf = load(mfile)
+
 #joblib_file = 'CLF_Model.pkl'      
 #path2 = 'https://github.com/Pierre0201/streamlit-to-heroku/blob/main/src/ressources/'
-model = pickle.load(open('https://github.com/Pierre0201/streamlit-to-heroku/tree/main/src/ressources/CLF_Model.pkl', 'rb'))
+#model = pickle.load(open('https://github.com/Pierre0201/streamlit-to-heroku/tree/main/src/ressources/CLF_Model.pkl', 'rb'))
 #model = pickle.load(open('https://github.com/Pierre0201/streamlit-to-heroku/blob/004111b3de13c5a286d239bbc46769d37ae9ca4b/src/ressources/CLF_Model.pkl', 'rb'))
 
 #with open(path2+joblib_file, 'rb') as f:
