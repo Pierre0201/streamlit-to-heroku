@@ -107,7 +107,7 @@ with col2:
     st.pyplot(fig, bbox_inches='tight')
     
 col1, col2 = st.columns([2,1])    
-vwith col1:
+with col1:
     st.header("Bivariate Plot Bis")
     sns.jointplot(data=train_df, x=options[0], y=options[1], kind='hex')
     plt.plot(train_df[options[0]].iloc[credit],train_df[options[1]].iloc[credit], marker="H", color="r")
