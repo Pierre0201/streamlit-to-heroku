@@ -6,4 +6,4 @@ shap
 joblib 
 seaborn
 pathlib
-pickle
+pickle-mixin
