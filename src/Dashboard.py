@@ -19,7 +19,8 @@ from pathlib import Path
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 #path = 'C:/Users/Pierre/#P7 DS OC/'
-path = 'https://raw.githubusercontent.com/Pierre0201/streamlit-to-heroku/main/'
+path = 'https://raw.githubusercontent.com/Pierre0201/streamlit-to-heroku/main/src/ressources/'
+
 #clf = joblib.load('https://github.com/Pierre0201/streamlit-to-heroku/blob/main/clf.joblib')
 
 # 1. Load the trained classifier 
