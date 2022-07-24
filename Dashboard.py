@@ -22,9 +22,8 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 path = 'https://raw.githubusercontent.com/Pierre0201/streamlit-to-heroku/main/'
 #clf = joblib.load('https://github.com/Pierre0201/streamlit-to-heroku/blob/main/clf.joblib')
 
-# 1. Load the trained regressor
-regressor = load(Path(__file__).'clf.joblib')
-
+# 1. Load the trained classifier 
+clf = load(Path(__file__).parent / 'resources' / 'clf.joblib')
 #clf = load('https://github.com/Pierre0201/streamlit-to-heroku/blob/e06d0cad2cc42ca920186d14fee68973e6270642/clf.joblib')
 
 train_df = pd.read_csv(path+'train_df_dash.csv')
