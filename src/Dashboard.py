@@ -27,9 +27,14 @@ path = 'https://raw.githubusercontent.com/Pierre0201/streamlit-to-heroku/main/sr
 # 1. Load the trained classifier 
 #clf = load(Path(__file__).parent / 'resources' / 'clf.joblib')
 #clf = load('https://github.com/Pierre0201/streamlit-to-heroku/blob/main/src/ressources/finalized_model.sav')
-clf = pickle.load(open('https://github.com/Pierre0201/streamlit-to-heroku/blob/main/src/ressources/finalized_model.sav', 'rb'))
+#clf = pickle.load(open('https://github.com/Pierre0201/streamlit-to-heroku/blob/main/src/ressources/finalized_model.sav', 'rb'))
 #clf = load('https://github.com/Pierre0201/streamlit-to-heroku/blob/e06d0cad2cc42ca920186d14fee68973e6270642/clf.joblib')
 
+joblib_file = 'CLF_Model.pkl'      
+path2 = 'https://github.com/Pierre0201/streamlit-to-heroku/blob/main/src/ressources/'
+with open(path+joblib_file, 'rb') as f:
+    clf = pickle.load(f)
+    
 train_df = pd.read_csv(path+'train_df_dash.csv')
 test_df = pd.read_csv(path+'submission_kernel02.csv')
 
