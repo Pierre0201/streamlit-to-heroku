@@ -14,42 +14,23 @@ import numpy as np
 import shap
 from joblib import load
 import seaborn as sns
-from pathlib import Path
-import pickle
+from io import BytesIO
+import requests
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
-#path = 'C:/Users/Pierre/#P7 DS OC/'
 path = 'https://raw.githubusercontent.com/Pierre0201/streamlit-to-heroku/main/src/ressources/'
 
-#clf = joblib.load('https://github.com/Pierre0201/streamlit-to-heroku/blob/main/clf.joblib')
-
-# 1. Load the trained classifier 
-#clf = load(Path(__file__).parent / 'resources' / 'clf.joblib')
-#clf = load('https://github.com/Pierre0201/streamlit-to-heroku/blob/main/src/ressources/finalized_model.sav')
-#clf = pickle.load(open('https://github.com/Pierre0201/streamlit-to-heroku/blob/main/src/ressources/finalized_model.sav', 'rb'))
-#clf = load('https://github.com/Pierre0201/streamlit-to-heroku/blob/e06d0cad2cc42ca920186d14fee68973e6270642/clf.joblib')
-
-from io import BytesIO
-import requests
-mLink = 'https://github.com/Pierre0201/streamlit-to-heroku/blob/main/clf.joblib?raw=true'
+mLink = 'https://github.com/Pierre0201/streamlit-to-heroku/blob/main/src/ressources/clf.joblib?raw=true'
 mfile = BytesIO(requests.get(mLink).content)
 clf = load(mfile)
-
-#joblib_file = 'CLF_Model.pkl'      
-#path2 = 'https://github.com/Pierre0201/streamlit-to-heroku/blob/main/src/ressources/'
-#model = pickle.load(open('https://github.com/Pierre0201/streamlit-to-heroku/tree/main/src/ressources/CLF_Model.pkl', 'rb'))
-#model = pickle.load(open('https://github.com/Pierre0201/streamlit-to-heroku/blob/004111b3de13c5a286d239bbc46769d37ae9ca4b/src/ressources/CLF_Model.pkl', 'rb'))
-
-#with open(path2+joblib_file, 'rb') as f:
-#    clf = pickle.load(f)
     
 train_df = pd.read_csv(path+'train_df_dash.csv')
 test_df = pd.read_csv(path+'submission_kernel02.csv')
 
-#feats = [f for f in train_df.columns if f not in ['TARGET','SK_ID_CURR','SK_ID_BUREAU','SK_ID_PREV','index']]
+feats = [f for f in train_df.columns if f not in ['TARGET','SK_ID_CURR','SK_ID_BUREAU','SK_ID_PREV','index']]
 
-#explainer = shap.TreeExplainer(clf, train_df[feats])
+explainer = shap.TreeExplainer(clf, train_df[feats])
 credit = 0
 
 
@@ -59,7 +40,7 @@ st.set_page_config(layout="wide")
 
 # Add a slider to the sidebar:
 credit = st.sidebar.number_input("Enter credit application", value=int() ) 
-#shap_values = explainer.shap_values(test_df[feats].iloc[credit])
+shap_values = explainer.shap_values(test_df[feats].iloc[credit])
 
 
 plt.style.use('fivethirtyeight')
@@ -83,65 +64,51 @@ col2.metric("Minimum", "{:.2%}".format(min(test_df['TARGET'])))
 col3.metric("Maximum", "{:.2%}".format(max(test_df['TARGET'])))
 col4.metric("Median", "{:.2%}".format(np.median(test_df['TARGET'])))
 
-#liste = (f for f in train_df.columns if f not in ['TARGET','SK_ID_CURR','SK_ID_BUREAU','SK_ID_PREV','index'])
-liste = ['PAYMENT_RATE','DAYS_BIRTH','test1','test2']
-
-#option = st.sidebar.selectbox('Select a first variable', (liste))
-#st.sidebar.write('You selected:', option)
-
+liste = (f for f in train_df.columns if f not in ['TARGET','SK_ID_CURR','SK_ID_BUREAU','SK_ID_PREV','index'])
 options = st.sidebar.multiselect('What variables do you choose', (liste), (['PAYMENT_RATE','DAYS_BIRTH']))
 
-#st.sidebar.write('You selected:', options)
-
-#def st_shap(plot, height=None):
-#    shap_html = f"<head>{shap.getjs()}</head><body>{plot.html()}</body>"
-#    components.html(shap_html, height=height)
-
-# Space out the maps so the first one is 2x the size of the other three
-#c1, c2, c3, c4 = st.columns((2, 1, 1, 1))
-#col1, col2 = st.columns([2,3])
+col1, col2 = st.columns([2,3])
 
 
-#with col1:
-#    st.header("Summary Plot")
-#    shap.summary_plot(explainer.shap_values(test_df[feats]),
-#                      features = test_df[feats],
-#                      feature_names=feats)
-#    st.pyplot(bbox_inches='tight')
+with col1:
+    st.header("Summary Plot")
+    shap.summary_plot(explainer.shap_values(test_df[feats]),
+                      features = test_df[feats],
+                      feature_names=feats)
+    st.pyplot(bbox_inches='tight')
 
-#with col2:
-#    st.header("Waterfall Plot")
-#    shap.plots._waterfall.waterfall_legacy(explainer.expected_value, 
-#                                           explainer.shap_values(test_df[feats].iloc[credit]),
-#                                           feature_names=feats
-#                                          )
-#    st.pyplot(bbox_inches='tight')
+with col2:
+    st.header("Waterfall Plot")
+    shap.plots._waterfall.waterfall_legacy(explainer.expected_value, 
+                                           explainer.shap_values(test_df[feats].iloc[credit]),
+                                           feature_names=feats
+                                          )
+    st.pyplot(bbox_inches='tight')
 
 
-#col1, col2 = st.columns(2)
+col1, col2 = st.columns(2)
 
-#with col1:   
-#    st.header("Hist Plot")
-#    fig = plt.figure(figsize=(9, 7))
-#    bins = np.histogram_bin_edges(train_df[options[0]], bins='auto')
-#    p = sns.histplot(data=train_df, x=options[0], hue="TARGET", stat="density", common_norm=False, bins=bins)
-#    difference_array = np.absolute(bins-train_df[options[0]].iloc[credit])
-#    for rectangle in p.patches:
-#        if min(bins[difference_array.argsort()[:2]]) <= rectangle.get_x() < max(bins[difference_array.argsort()[:2]])  :
-#            rectangle.set_facecolor('#ffd966')
-#    st.pyplot(fig, bbox_inches='tight')
+with col1:   
+    st.header("Hist Plot")
+    fig = plt.figure(figsize=(9, 7))
+    bins = np.histogram_bin_edges(train_df[options[0]], bins='auto')
+    p = sns.histplot(data=train_df, x=options[0], hue="TARGET", stat="density", common_norm=False, bins=bins)
+    difference_array = np.absolute(bins-train_df[options[0]].iloc[credit])
+    for rectangle in p.patches:
+        if min(bins[difference_array.argsort()[:2]]) <= rectangle.get_x() < max(bins[difference_array.argsort()[:2]])  :
+            rectangle.set_facecolor('#ffd966')
+    st.pyplot(fig, bbox_inches='tight')
 
-#with col2:
-#    st.header("Bivariate Plot")
-#    fig = plt.figure(figsize=(9, 7))
-#    sns.scatterplot(x=options[0], y=options[1], data=train_df.sample(250), hue='TARGET')    
-#    #plt.plot(0.3,0.5, marker="x", color="r")
-#    st.pyplot(fig, bbox_inches='tight')
-#    
-#col1, col2 = st.columns([2,1])    
-#vwith col1:
-#    st.header("Bivariate Plot Bis")
-#    sns.jointplot(data=train_df, x=options[0], y=options[1], kind='hex')
-#    plt.plot(train_df[options[0]].iloc[credit],train_df[options[1]].iloc[credit], marker="H", color="r")
-#    st.pyplot()
-#
+with col2:
+    st.header("Bivariate Plot")
+    fig = plt.figure(figsize=(9, 7))
+    sns.scatterplot(x=options[0], y=options[1], data=train_df.sample(250), hue='TARGET')    
+    #plt.plot(0.3,0.5, marker="x", color="r")
+    st.pyplot(fig, bbox_inches='tight')
+    
+col1, col2 = st.columns([2,1])    
+vwith col1:
+    st.header("Bivariate Plot Bis")
+    sns.jointplot(data=train_df, x=options[0], y=options[1], kind='hex')
+    plt.plot(train_df[options[0]].iloc[credit],train_df[options[1]].iloc[credit], marker="H", color="r")
+    st.pyplot()
