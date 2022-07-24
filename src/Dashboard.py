@@ -24,7 +24,8 @@ path = 'https://raw.githubusercontent.com/Pierre0201/streamlit-to-heroku/main/sr
 #clf = joblib.load('https://github.com/Pierre0201/streamlit-to-heroku/blob/main/clf.joblib')
 
 # 1. Load the trained classifier 
-clf = load(Path(__file__).parent / 'resources' / 'clf.joblib')
+#clf = load(Path(__file__).parent / 'resources' / 'clf.joblib')
+clf = load(path+'finalized_model.sav')
 #clf = load('https://github.com/Pierre0201/streamlit-to-heroku/blob/e06d0cad2cc42ca920186d14fee68973e6270642/clf.joblib')
 
 train_df = pd.read_csv(path+'train_df_dash.csv')
