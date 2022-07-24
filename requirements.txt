@@ -7,3 +7,4 @@ joblib
 seaborn
 pathlib
 pickle-mixin
+scikit-learn
