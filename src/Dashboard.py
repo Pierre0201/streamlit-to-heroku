@@ -32,7 +32,7 @@ path = 'https://raw.githubusercontent.com/Pierre0201/streamlit-to-heroku/main/sr
 
 joblib_file = 'CLF_Model.pkl'      
 path2 = 'https://github.com/Pierre0201/streamlit-to-heroku/blob/main/src/ressources/'
-with open(path+joblib_file, 'rb') as f:
+with open(path2+joblib_file, 'rb') as f:
     clf = pickle.load(f)
     
 train_df = pd.read_csv(path+'train_df_dash.csv')
