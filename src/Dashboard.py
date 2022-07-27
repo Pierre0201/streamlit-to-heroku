@@ -31,8 +31,7 @@ test_df = pd.read_csv(path+'submission_kernel02.csv')
 feats = [f for f in train_df.columns if f not in ['TARGET','SK_ID_CURR','SK_ID_BUREAU','SK_ID_PREV','index']]
 
 explainer = shap.TreeExplainer(clf, train_df[feats])
-credit = 0
-
+credit = test_df.loc[test_df['SK_ID_CURR']==100141].index[0]-len(test_df)
 
 # Use the full page instead of a narrow central column
 st.set_page_config(layout="wide")
@@ -40,6 +39,8 @@ st.set_page_config(layout="wide")
 
 # Add a slider to the sidebar:
 credit = st.sidebar.number_input("Enter credit application", value=int() ) 
+credit =  test_df.loc[test_df['SK_ID_CURR']==credit].index[0] - len(test_df)
+st.sidebar.write('Exemple:', list(test_df['SK_ID_CURR'].sample(3)))
 shap_values = explainer.shap_values(test_df[feats].iloc[credit])
 
 
@@ -55,14 +56,21 @@ plt.rcParams.update(
      'axes.titleweight':'bold'
     })
 
-delta = test_df['TARGET'].iloc[credit]-np.median(test_df['TARGET'])
+seuil = 0.11
+delta = test_df['TARGET'].iloc[credit]-seuil
 
-col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3, col4, col5 = st.columns(5)
 
 col1.metric("Default Risk", "{:.2%}".format(test_df['TARGET'].iloc[credit]), "{:.2%}".format(delta), delta_color="inverse")
-col2.metric("Minimum", "{:.2%}".format(min(test_df['TARGET'])))
-col3.metric("Maximum", "{:.2%}".format(max(test_df['TARGET'])))
-col4.metric("Median", "{:.2%}".format(np.median(test_df['TARGET'])))
+col2.metric("Threshold","11%")
+col3.metric("Minimum", "{:.2%}".format(min(test_df['TARGET'])))
+col4.metric("Maximum", "{:.2%}".format(max(test_df['TARGET'])))
+col5.metric("Median", "{:.2%}".format(np.median(test_df['TARGET'])))
+
+if test_df['TARGET'].iloc[credit] > seuil:
+    st.title('Decision : **Refused**')
+if test_df['TARGET'].iloc[credit] <= seuil:
+    st.title('Decision : **Accepted**')
 
 liste = (f for f in train_df.columns if f not in ['TARGET','SK_ID_CURR','SK_ID_BUREAU','SK_ID_PREV','index'])
 options = st.sidebar.multiselect('What variables do you choose', (liste), (['PAYMENT_RATE','DAYS_BIRTH']))
@@ -103,12 +111,17 @@ with col2:
     st.header("Bivariate Plot")
     fig = plt.figure(figsize=(9, 7))
     sns.scatterplot(x=options[0], y=options[1], data=train_df.sample(250), hue='TARGET')    
-    #plt.plot(0.3,0.5, marker="x", color="r")
+    plt.plot(test_df[options[0]].iloc[credit],test_df[options[1]].iloc[credit], marker="x", color="r")
     st.pyplot(fig, bbox_inches='tight')
     
-col1, col2 = st.columns([2,1])    
+col1, col2 = st.columns(2)    
 with col1:
     st.header("Bivariate Plot Bis")
     sns.jointplot(data=train_df, x=options[0], y=options[1], kind='hex')
-    plt.plot(train_df[options[0]].iloc[credit],train_df[options[1]].iloc[credit], marker="H", color="r")
+    plt.plot(test_df[options[0]].iloc[credit],test_df[options[1]].iloc[credit], marker="H", color="r")
+    st.pyplot()
+with col2:
+    st.header("Bivariate Plot Ter")
+    sns.kdeplot(data=train_df, x=options[0], y=options[1], hue="TARGET", fill=True)
+    plt.plot(test_df[options[0]].iloc[credit],test_df[options[1]].iloc[credit], marker="H", color="r")
     st.pyplot()
