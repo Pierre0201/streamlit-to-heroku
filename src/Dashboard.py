@@ -68,9 +68,9 @@ col4.metric("Maximum", "{:.2%}".format(max(test_df['TARGET'])))
 col5.metric("Median", "{:.2%}".format(np.median(test_df['TARGET'])))
 
 if test_df['TARGET'].iloc[credit] > seuil:
-    st.title('Decision : **Refused**')
+    st.error('Decision : Refused')
 if test_df['TARGET'].iloc[credit] <= seuil:
-    st.title('Decision : **Accepted**')
+    st.success('Decision : Accepted')
 
 liste = (f for f in train_df.columns if f not in ['TARGET','SK_ID_CURR','SK_ID_BUREAU','SK_ID_PREV','index'])
 options = st.sidebar.multiselect('What variables do you choose', (liste), (['PAYMENT_RATE','DAYS_BIRTH']))
