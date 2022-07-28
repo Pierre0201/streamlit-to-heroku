@@ -75,7 +75,7 @@ if test_df['TARGET'].iloc[credit] <= seuil:
 liste = (f for f in train_df.columns if f not in ['TARGET','SK_ID_CURR','SK_ID_BUREAU','SK_ID_PREV','index'])
 options = st.sidebar.multiselect('What variables do you choose', (liste), (['PAYMENT_RATE','DAYS_BIRTH']))
 
-col1, col2 = st.columns([2,3])
+col1, col2 = st.columns(2)
 
 
 with col1:
