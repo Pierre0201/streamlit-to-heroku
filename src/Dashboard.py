@@ -17,6 +17,9 @@ import seaborn as sns
 from io import BytesIO
 import requests
 
+from fastapi_request import predict
+test = predict()
+
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 path = 'https://raw.githubusercontent.com/Pierre0201/streamlit-to-heroku/main/src/ressources/'
@@ -59,13 +62,14 @@ plt.rcParams.update(
 seuil = 0.11
 delta = test_df['TARGET'].iloc[credit]-seuil
 
-col1, col2, col3, col4, col5 = st.columns(5)
+col1, col2, col3, col4, col5, col6 = st.columns(6)
 
 col1.metric("Default Risk", "{:.2%}".format(test_df['TARGET'].iloc[credit]), "{:.2%}".format(delta), delta_color="inverse")
 col2.metric("Threshold","11%")
 col3.metric("Minimum", "{:.2%}".format(min(test_df['TARGET'])))
 col4.metric("Maximum", "{:.2%}".format(max(test_df['TARGET'])))
 col5.metric("Median", "{:.2%}".format(np.median(test_df['TARGET'])))
+col6.metric("Test", "{:.2%}".format(test))
 
 if test_df['TARGET'].iloc[credit] > seuil:
     st.error('Decision : Refused')
