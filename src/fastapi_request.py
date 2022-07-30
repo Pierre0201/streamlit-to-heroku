@@ -21,7 +21,7 @@ def get_prediction(id_credit):
     Returns :
     - probability of default (float).
     """
-    json_client = test_df[feats].loc[test_df['SK_ID_CURR']==id_credit].to_json()
-    response = requests.get(HOST + '/prediction/', data=json_client)
+    json_credit = test_df[feats].loc[test_df['SK_ID_CURR']==id_credit].to_json()
+    response = requests.get(HOST + '/prediction/', data=json_credit)
     proba_default = eval(response.content)["probability"]
     return proba_default
