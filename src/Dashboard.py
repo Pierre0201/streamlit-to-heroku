@@ -39,7 +39,7 @@ st.set_page_config(layout="wide")
 
 # Add a slider to the sidebar:
 credit = st.sidebar.number_input("Enter credit application", value=100141 ) 
-test = predict(credit)
+test = get_prediction(credit)
 credit =  test_df.loc[test_df['SK_ID_CURR']==credit].index[0] - len(test_df)
 st.sidebar.write('Exemple:', list(test_df['SK_ID_CURR'].sample(3)))
 shap_values = explainer.shap_values(test_df[feats].iloc[credit])
