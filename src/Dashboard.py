@@ -3,9 +3,6 @@
 Created on Sat Jun 25 16:46:49 2022
 @author: Pierre
 """
-#import streamlit.components.v1 as components
-#import time
-#from matplotlib.patches import Rectangle
 
 import streamlit as st
 import matplotlib.pyplot as plt
@@ -17,7 +14,7 @@ import seaborn as sns
 from io import BytesIO
 import requests
 
-from fastapi_request import predict
+from fastapi_request import get_prediction
 
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
