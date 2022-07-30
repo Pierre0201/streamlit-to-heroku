@@ -9,6 +9,7 @@ import pandas as pd
 
 path = 'https://raw.githubusercontent.com/Pierre0201/streamlit-to-heroku/main/src/ressources/'
 test_df = pd.read_csv(path+'submission_kernel02.csv')
+feats = [f for f in test_df.columns if f not in ['TARGET','SK_ID_CURR','SK_ID_BUREAU','SK_ID_PREV','index']]
 
 
 HOST = 'https://fastapi-clf-predict.herokuapp.com/'
