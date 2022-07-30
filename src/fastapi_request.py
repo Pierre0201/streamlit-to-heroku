@@ -4,25 +4,23 @@ Created on Fri Jul 29 00:40:59 2022
 
 @author: Pierre
 """
-
-
 import requests
+import pandas as pd
 
-MODEL_API_URL = 'https://fastapi-clf-predict.herokuapp.com/predict2'
+path = 'https://raw.githubusercontent.com/Pierre0201/streamlit-to-heroku/main/src/ressources/'
+test_df = pd.read_csv(path+'submission_kernel02.csv')
 
 
-def predict():
-    try:
-        response = requests.post(
-            url=MODEL_API_URL,
-            headers={'content-type': 'application/json'}           
-        )
-        response.raise_for_status()
-        output = response.json()['prediction']
-    except (requests.HTTPError, IOError) as err:
-        output = str(err)
-    return output
+HOST = 'https://fastapi-clf-predict.herokuapp.com/'
 
-if __name__ == '__main__':
-    # Example of model prediction
-    print(predict())
+def get_prediction(id_credit):
+    """Gets the probability of default of a client on the API server.
+    Args : 
+    - id_client (int).
+    Returns :
+    - probability of default (float).
+    """
+    json_client = test_df[feats].loc[test_df['SK_ID_CURR']==id_credit].to_json()
+    response = requests.get(HOST + '/prediction/', data=json_client)
+    proba_default = eval(response.content)["probability"]
+    return proba_default
