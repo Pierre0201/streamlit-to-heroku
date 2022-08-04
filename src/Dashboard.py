@@ -68,9 +68,9 @@ col4.metric("Maximum", "{:.2%}".format(maximum()))
 col5.metric("Median", "{:.2%}".format(median()))
 
 
-if test_df['TARGET'].iloc[credit] > seuil:
+if get_prediction(str(id_credit)) > seuil:
     st.error('Decision : Refused')
-if test_df['TARGET'].iloc[credit] <= seuil:
+if get_prediction(str(id_credit)) <= seuil:
     st.success('Decision : Accepted')
 
 liste = (f for f in train_df.columns if f not in ['TARGET','SK_ID_CURR','SK_ID_BUREAU','SK_ID_PREV','index'])
