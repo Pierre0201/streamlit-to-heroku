@@ -5,6 +5,8 @@ Created on Fri Jul 29 00:40:59 2022
 @author: Pierre
 """
 
+import requests
+
 HOST = 'https://fastapi-clf-predict.herokuapp.com/'
 
 def get_prediction(id_credit):
