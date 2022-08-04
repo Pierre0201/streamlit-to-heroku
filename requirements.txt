@@ -9,3 +9,4 @@ pathlib
 pickle-mixin
 scikit-learn
 lightgbm
+requests
