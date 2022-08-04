@@ -37,8 +37,9 @@ st.set_page_config(layout="wide")
 
 
 # Add a slider to the sidebar:
-input = st.sidebar.number_input("Enter credit application", value=100141 ) 
-credit =  test_df.loc[test_df['SK_ID_CURR']==input].index[0] - len(test_df)
+id_credit = st.sidebar.number_input("Enter credit application", value=100141 ) 
+credit =  test_df.loc[test_df['SK_ID_CURR']==id_credit].index[0] - len(test_df)
+
 st.sidebar.write('Exemple:', list(test_df['SK_ID_CURR'].sample(3)))
 shap_values = explainer.shap_values(test_df[feats].iloc[credit])
 
@@ -56,11 +57,11 @@ plt.rcParams.update(
     })
 
 seuil = 0.11
-delta = get_prediction(input)-seuil
+delta = get_prediction(str(id_credit))-seuil
 
 col1, col2, col3, col4, col5 = st.columns(5)
 
-col1.metric("Default Risk", "{:.2%}".format(get_prediction(input), "{:.2%}".format(delta), delta_color="inverse"))
+col1.metric("Default Risk", "{:.2%}".format(get_prediction(str(id_credit))), "{:.2%}".format(delta), delta_color="inverse")
 col2.metric("Threshold","11%")
 col3.metric("Minimum", "{:.2%}".format(minimum()))
 col4.metric("Maximum", "{:.2%}".format(maximum()))
