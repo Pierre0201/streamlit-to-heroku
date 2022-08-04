@@ -56,11 +56,11 @@ plt.rcParams.update(
     })
 
 seuil = 0.11
-delta = test_df['TARGET'].iloc[credit]-seuil
+delta = get_prediction(input)-seuil
 
 col1, col2, col3, col4, col5 = st.columns(5)
 
-col1.metric("Default Risk", "{:.2%}".format(get_prediction(input), "{:.2%}".format(delta), delta_color="inverse")
+col1.metric("Default Risk", "{:.2%}".format(get_prediction(input), "{:.2%}".format(delta), delta_color="inverse"))
 col2.metric("Threshold","11%")
 col3.metric("Minimum", "{:.2%}".format(minimum()))
 col4.metric("Maximum", "{:.2%}".format(maximum()))
