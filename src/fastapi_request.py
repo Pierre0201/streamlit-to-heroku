@@ -6,6 +6,7 @@ Created on Fri Jul 29 00:40:59 2022
 """
 
 import requests
+import pandas as pd
 
 HOST = 'https://fastapi-clf-predict.herokuapp.com/'
 
