@@ -16,7 +16,7 @@ HOST = 'https://fastapi-clf-predict.herokuapp.com/'
 #    return proba_default
 
 def get_prediction(credit_data: pd.Series):
-    response = requests.post(HOST + '/prediction', data=credit_data.to_json())
+    response = requests.post(HOST + 'prediction/', data=credit_data.to_json())
     proba_default = response.json()["probability"]
     return proba_default
 
