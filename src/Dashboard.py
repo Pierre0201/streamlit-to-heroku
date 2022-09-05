@@ -113,10 +113,9 @@ with col1:
 
 with col2:
     st.header("Bivariate Plot")
-    fig = plt.figure(figsize=(9, 7))
-    sns.scatterplot(x=options[0], y=options[1], data=train_df.sample(250), hue='TARGET')    
-    plt.plot(test_df[options[0]].iloc[credit],test_df[options[1]].iloc[credit], marker="x", color="r")
-    st.pyplot(fig, bbox_inches='tight')
+    sns.kdeplot(data=train_df, x=options[0], y=options[1], hue="TARGET", fill=True)
+    plt.plot(test_df[options[0]].iloc[credit],test_df[options[1]].iloc[credit], marker="H", color="r")
+    st.pyplot()
     
 col1, col2 = st.columns(2)    
 with col1:
@@ -126,6 +125,7 @@ with col1:
     st.pyplot()
 with col2:
     st.header("Bivariate Plot Ter")
-    sns.kdeplot(data=train_df, x=options[0], y=options[1], hue="TARGET", fill=True)
-    plt.plot(test_df[options[0]].iloc[credit],test_df[options[1]].iloc[credit], marker="H", color="r")
-    st.pyplot()
+    fig = plt.figure(figsize=(9, 7))
+    sns.scatterplot(x=options[0], y=options[1], data=train_df.sample(250), hue='TARGET')    
+    plt.plot(test_df[options[0]].iloc[credit],test_df[options[1]].iloc[credit], marker="x", color="r")
+    st.pyplot(fig, bbox_inches='tight')
