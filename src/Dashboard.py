@@ -30,7 +30,7 @@ test_df = pd.read_csv(path+'submission_kernel02.csv')
 feats = [f for f in train_df.columns if f not in ['TARGET','SK_ID_CURR','SK_ID_BUREAU','SK_ID_PREV','index']]
 
 explainer = shap.TreeExplainer(clf, train_df[feats])
-credit = test_df.loc[test_df['SK_ID_CURR']==100141].index[0]-len(test_df)
+#credit = test_df.loc[test_df['SK_ID_CURR']==100141].index[0]-len(test_df)
 
 # Use the full page instead of a narrow central column
 st.set_page_config(layout="wide")
@@ -56,21 +56,24 @@ plt.rcParams.update(
      'axes.titleweight':'bold'
     })
 
+credit_data = test_df.loc[test_df['SK_ID_CURR'] == id_credit].iloc[0]
+prediction = get_prediction(credit_data=credit_data)
+
 seuil = 0.11
-delta = get_prediction(str(id_credit))-seuil
+delta = prediction-seuil
 
 col1, col2, col3, col4, col5 = st.columns(5)
 
-col1.metric("Default Risk", "{:.2%}".format(get_prediction(str(id_credit))), "{:.2%}".format(delta), delta_color="inverse")
+col1.metric("Default Risk", "{:.2%}".format(prediction), "{:.2%}".format(delta), delta_color="inverse")
 col2.metric("Threshold","11%")
 col3.metric("Minimum", "{:.2%}".format(minimum()))
 col4.metric("Maximum", "{:.2%}".format(maximum()))
 col5.metric("Median", "{:.2%}".format(median()))
 
 
-if get_prediction(str(id_credit)) > seuil:
+if prediction > seuil:
     st.error('Decision : Refused')
-if get_prediction(str(id_credit)) <= seuil:
+if prediction <= seuil:
     st.success('Decision : Accepted')
 
 liste = (f for f in train_df.columns if f not in ['TARGET','SK_ID_CURR','SK_ID_BUREAU','SK_ID_PREV','index'])
