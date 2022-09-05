@@ -9,9 +9,14 @@ import requests
 
 HOST = 'https://fastapi-clf-predict.herokuapp.com/'
 
-def get_prediction(id_credit):
-    response = requests.get(HOST + 'predict?id_credit=' + id_credit)
-    proba_default = eval(response.content)["probability"]
+#def get_prediction(id_credit):
+#    response = requests.get(HOST + 'predict?id_credit=' + id_credit)
+#    proba_default = eval(response.content)["probability"]
+#    return proba_default
+
+def get_prediction(credit_data: pd.Series):
+    response = requests.post(HOST + '/prediction', data=credit_data.to_json())
+    proba_default = response.json()["probability"]
     return proba_default
 
 def minimum():
